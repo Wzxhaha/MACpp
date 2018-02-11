@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 is_install() {
     ret=""
     if command -v $1 >/dev/null; then
@@ -18,9 +17,9 @@ install_homebrew() {
     fi
 }
 
-install_jq() {
-    if [ "$( is_install jq )" == "false" ]; then
-        brew install jq;
+install_python3() {
+    if [ "$( is_install python3 )" == "false" ]; then
+        brew install python3;
     fi
 }
 
@@ -39,19 +38,15 @@ install_cocoapods() {
     fi
 }
 
-load_config() {
-    module=$( cat config.json | jq ".mac" )
-    echo $module
-    for m in $module 
-    do
-        if [ "$m" == "zsh" ]; then
-            install_zsh;
-        elif [ "$m" == "cocoapods" ]; then
-            install_cocoapods;
-        fi
-    done
-}
+cmd=$1
 
-install_homebrew;
-install_jq;
-load_config;
+if [ "$cmd"x == "homebrew"x ]; then
+    install_homebrew;
+elif [ "$cmd"x == "python3"x ]; then
+    install_python3;
+elif [ "$cmd"x == "zsh"x ]; then
+    install_zsh;
+elif [ "$cmd"x == "cocoapods"x ]; then
+    install_cocoapods;
+fi
+
